@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderSection it renders 1`] = `
+<Header
+  data-test-subj="header-section"
+>
+  <EuiFlexGroup
+    alignItems="center"
+    gutterSize="none"
+  >
+    <EuiFlexItem
+      grow={true}
+    >
+      <EuiFlexGroup
+        alignItems="center"
+        gutterSize="none"
+        responsive={false}
+      >
+        <EuiFlexItem>
+          <EuiTitle
+            size="m"
+          >
+            <h4
+              data-test-subj="header-section-title"
+            >
+              Test title
+            </h4>
+          </EuiTitle>
+          <Subtitle
+            data-test-subj="header-section-subtitle"
+          />
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </EuiFlexItem>
+  </EuiFlexGroup>
+</Header>
+`;
