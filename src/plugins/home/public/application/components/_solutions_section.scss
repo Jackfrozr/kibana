@@ -1,0 +1,23 @@
+.homSolutions__item {
+  @include euiBreakpoint('l', 'xl') {
+    max-width: calc(50% - #{$euiSizeM * 2});
+  }
+}
+
+.euiCard__image {
+  .homSolutionPanel & {
+    background-color: $euiColorPrimary;
+  }
+
+  .homSolutionPanel--enterpriseSearch & {
+    background-color: $euiColorWarning;
+  }
+
+  .homSolutionPanel--observability & {
+    background-color: $euiColorAccent;
+  }
+
+  .homSolutionPanel--securitySolution & {
+    background-color: $euiColorSecondary;
+  }
+}

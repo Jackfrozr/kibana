@@ -1,0 +1,82 @@
+/*
+ * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
+ * or more contributor license agreements. Licensed under the Elastic License
+ * 2.0; you may not use this file except in compliance with the Elastic License
+ * 2.0.
+ */
+
+import { SavedObjectsClientContract } from '../../../../../../../src/core/server';
+import { RuleRegistryAdapter } from './adapters/rule_registry_adapter';
+import { SavedObjectsAdapter } from './adapters/saved_objects_adapter';
+import {
+  CreateExecutionLogArgs,
+  ExecutionMetric,
+  ExecutionMetricArgs,
+  FindBulkExecutionLogArgs,
+  FindExecutionLogArgs,
+  IRuleDataPluginService,
+  IRuleExecutionLogClient,
+  LogStatusChangeArgs,
+  UpdateExecutionLogArgs,
+} from './types';
+import { truncateMessage } from './utils/normalization';
+
+export interface RuleExecutionLogClientArgs {
+  ruleDataService: IRuleDataPluginService;
+  savedObjectsClient: SavedObjectsClientContract;
+}
+
+const RULE_REGISTRY_LOG_ENABLED = false;
+
+export class RuleExecutionLogClient implements IRuleExecutionLogClient {
+  private client: IRuleExecutionLogClient;
+
+  constructor({ ruleDataService, savedObjectsClient }: RuleExecutionLogClientArgs) {
+    if (RULE_REGISTRY_LOG_ENABLED) {
+      this.client = new RuleRegistryAdapter(ruleDataService);
+    } else {
+      this.client = new SavedObjectsAdapter(savedObjectsClient);
+    }
+  }
+
+  public find(args: FindExecutionLogArgs) {
+    return this.client.find(args);
+  }
+
+  public findBulk(args: FindBulkExecutionLogArgs) {
+    return this.client.findBulk(args);
+  }
+
+  public async create(args: CreateExecutionLogArgs) {
+    return this.client.create(args);
+  }
+
+  public async update(args: UpdateExecutionLogArgs) {
+    const { lastFailureMessage, lastSuccessMessage, ...restAttributes } = args.attributes;
+
+    return this.client.update({
+      ...args,
+      attributes: {
+        lastFailureMessage: truncateMessage(lastFailureMessage),
+        lastSuccessMessage: truncateMessage(lastSuccessMessage),
+        ...restAttributes,
+      },
+    });
+  }
+
+  public async delete(id: string) {
+    return this.client.delete(id);
+  }
+
+  public async logExecutionMetric<T extends ExecutionMetric>(args: ExecutionMetricArgs<T>) {
+    return this.client.logExecutionMetric(args);
+  }
+
+  public async logStatusChange(args: LogStatusChangeArgs) {
+    const message = args.message ? truncateMessage(args.message) : args.message;
+    return this.client.logStatusChange({
+      ...args,
+      message,
+    });
+  }
+}

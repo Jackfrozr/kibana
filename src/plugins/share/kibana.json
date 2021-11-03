@@ -1,0 +1,12 @@
+{
+  "id": "share",
+  "version": "kibana",
+  "server": true,
+  "ui": true,
+  "owner": {
+    "name": "App Services",
+    "githubTeam": "kibana-app-services"
+  },
+  "requiredBundles": ["kibanaUtils"],
+  "optionalPlugins": ["securityOss"]
+}
