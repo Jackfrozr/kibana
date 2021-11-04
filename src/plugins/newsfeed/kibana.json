@@ -1,0 +1,7 @@
+{
+  "id": "newsfeed",
+  "version": "kibana",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": ["screenshotMode"]
+}

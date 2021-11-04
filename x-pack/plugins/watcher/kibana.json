@@ -1,0 +1,20 @@
+{
+  "id": "watcher",
+  "configPath": ["xpack", "watcher"],
+  "version": "kibana",
+  "requiredPlugins": [
+    "home",
+    "licensing",
+    "licenseApiGuard",
+    "management",
+    "charts",
+    "data",
+    "features"
+  ],
+  "server": true,
+  "ui": true,
+  "requiredBundles": [
+    "esUiShared",
+    "kibanaReact"
+  ]
+}

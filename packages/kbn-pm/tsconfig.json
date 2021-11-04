@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "../../build/tsbuildinfo/packages/kbn-pm",
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "./index.d.ts",
+    "./src/**/*.ts"
+  ]
+}
